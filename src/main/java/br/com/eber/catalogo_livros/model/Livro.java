@@ -13,6 +13,9 @@ public class Livro {
     private String autor;
     private Double preco;
 
+    public Livro() {}
+
+
     public Livro(Long id, String titulo, String autor, Double preco) {
         this.id = id;
         this.titulo = titulo;
