@@ -1,13 +1,7 @@
-package br.com.eber.catalogo_livros.model;
+package br.com.eber.catalogo_livros.dto;
 
-import jakarta.persistence.*;
+public class LivroRequestDTO {
 
-@Entity
-@Table(name="livro")
-public class Livro {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long   id;
     private String titulo;
     private String autor;
@@ -15,17 +9,7 @@ public class Livro {
     private int    isbn;
     private int    anoPublicacao;
 
-    public Livro() {}
-
-
-    public Livro(Long id, String titulo, String autor, Double preco, int isbn, int anoPublicacao) {
-        this.id = id;
-        this.titulo = titulo;
-        this.autor = autor;
-        this.preco = preco;
-        this.isbn = isbn;
-        this.anoPublicacao = anoPublicacao;
-    }
+    public LivroRequestDTO(){}
 
     public Long getId() {
         return id;
