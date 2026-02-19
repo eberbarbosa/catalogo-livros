@@ -6,7 +6,7 @@ public class LivroRequestDTO {
     private String titulo;
     private String autor;
     private Double preco;
-    private int    isbn;
+    private String isbn;
     private int    anoPublicacao;
 
     public LivroRequestDTO(){}
@@ -43,11 +43,11 @@ public class LivroRequestDTO {
         this.preco = preco;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 

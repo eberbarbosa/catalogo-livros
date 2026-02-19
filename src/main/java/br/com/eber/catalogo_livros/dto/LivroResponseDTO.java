@@ -6,12 +6,11 @@ public class LivroResponseDTO {
     private String titulo;
     private String autor;
     private Double preco;
-    private int    isbn;
+    private String isbn;
     private int    anoPublicacao;
 
-    public LivroRequestDTO(){}
 
-    public LivroResponseDTO(Long id, String titulo, String autor, Double preco, int isbn, int anoPublicacao) {
+    public LivroResponseDTO(Long id, String titulo, String autor, Double preco, String isbn, int anoPublicacao) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -36,7 +35,7 @@ public class LivroResponseDTO {
         return preco;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
