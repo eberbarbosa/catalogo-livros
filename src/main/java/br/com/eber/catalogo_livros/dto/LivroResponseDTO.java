@@ -9,6 +9,8 @@ public class LivroResponseDTO {
     private String isbn;
     private int    anoPublicacao;
 
+    public LivroResponseDTO() {}
+
 
     public LivroResponseDTO(Long id, String titulo, String autor, Double preco, String isbn, int anoPublicacao) {
         this.id = id;

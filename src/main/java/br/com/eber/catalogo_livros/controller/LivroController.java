@@ -4,6 +4,7 @@ import br.com.eber.catalogo_livros.dto.LivroRequestDTO;
 import br.com.eber.catalogo_livros.dto.LivroResponseDTO;
 import br.com.eber.catalogo_livros.model.Livro;
 import br.com.eber.catalogo_livros.service.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,11 +42,12 @@ public class LivroController {
     }
 
     @PostMapping
-    public ResponseEntity<LivroResponseDTO> salvar(@RequestBody LivroRequestDTO dto) {
+    public ResponseEntity<LivroResponseDTO> salvar(@Valid @RequestBody LivroRequestDTO dto) {
 
         Livro livro = new Livro();
         livro.setTitulo(dto.getTitulo());
         livro.setAutor(dto.getAutor());
+        livro.setPreco(dto.getPreco());
         livro.setIsbn(dto.getIsbn());
         livro.setAnoPublicacao(dto.getAnoPublicacao());
 
