@@ -68,17 +68,18 @@ public class LivroController {
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> buscarPorId(@PathVariable Long id) {
 
-        return livroService.buscarPorId(id)
-                .map(livro -> new LivroResponseDTO(
-                        livro.getId(),
-                        livro.getTitulo(),
-                        livro.getAutor(),
-                        livro.getPreco(),
-                        livro.getIsbn(),
-                        livro.getAnoPublicacao()
-                ))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Livro livro = livroService.buscarPorId(id);
+
+        LivroResponseDTO dto = new LivroResponseDTO(
+                livro.getId(),
+                livro.getTitulo(),
+                livro.getAutor(),
+                livro.getPreco(),
+                livro.getIsbn(),
+                livro.getAnoPublicacao()
+        );
+
+        return ResponseEntity.ok(dto);
     }
 }
 
