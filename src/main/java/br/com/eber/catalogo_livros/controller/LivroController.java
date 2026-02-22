@@ -43,7 +43,6 @@ public class LivroController {
 
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> buscarPorId(@PathVariable Long id) {
 
@@ -59,6 +58,24 @@ public class LivroController {
         );
 
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/autor")
+    public ResponseEntity<List<LivroResponseDTO>> buscarPorAutor(@RequestParam String nome) {
+
+        List<LivroResponseDTO> lista = livroService.buscarPorAutor(nome)
+                .stream()
+                .map(livro -> new LivroResponseDTO(
+                        livro.getId(),
+                        livro.getTitulo(),
+                        livro.getAutor(),
+                        livro.getPreco(),
+                        livro.getIsbn(),
+                        livro.getAnoPublicacao()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(lista);
     }
 
 

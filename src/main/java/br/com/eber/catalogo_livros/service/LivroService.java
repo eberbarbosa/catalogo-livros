@@ -41,4 +41,8 @@ public class LivroService {
     public Page<Livro> listar(Pageable pageable) {
         return livroRepository.findAll(pageable);
     }
+
+    public List<Livro> buscarPorAutor(String nomeAutor) {
+        return livroRepository.findByAutorContainingIgnoreCase(nomeAutor);
+    }
 }
