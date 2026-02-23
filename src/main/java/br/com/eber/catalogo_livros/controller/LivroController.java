@@ -78,6 +78,23 @@ public class LivroController {
         return ResponseEntity.ok(lista);
     }
 
+    @PostMapping
+    public ResponseEntity<LivroResponseDTO> salvar(@RequestBody Livro livro) {
+
+        Livro livroSalvo = livroService.salvar(livro);
+
+        LivroResponseDTO dto = new LivroResponseDTO(
+                livroSalvo.getId(),
+                livroSalvo.getTitulo(),
+                livroSalvo.getAutor(),
+                livroSalvo.getPreco(),
+                livroSalvo.getIsbn(),
+                livroSalvo.getAnoPublicacao()
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    }
+
 
 
 

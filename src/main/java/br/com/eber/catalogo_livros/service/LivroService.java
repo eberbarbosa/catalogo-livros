@@ -6,9 +6,8 @@ import br.com.eber.catalogo_livros.repository.LivroRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class LivroService {
@@ -24,9 +23,18 @@ public class LivroService {
 
     }
 
-    public Livro salvar(Livro livro) {
-        return livroRepository.save(livro);
-    }
+
+   public Livro salvar(Livro livro) {
+
+       System.out.println("ISBN recebido: '" + livro.getIsbn() + "'");
+       System.out.println("Existe? " + livroRepository.existsByIsbn(livro.getIsbn()));
+
+       if (livroRepository.existsByIsbn(livro.getIsbn())) {
+           throw new IsbnDuplicadoException("!!! ISBN já cadastrado. !!!");
+       }
+
+       return livroRepository.save(livro);
+   }
 
     public Livro buscarPorId(Long id) {
         return livroRepository.findById(id)
