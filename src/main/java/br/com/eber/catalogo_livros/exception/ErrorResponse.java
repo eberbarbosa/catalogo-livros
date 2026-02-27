@@ -10,16 +10,22 @@ public class ErrorResponse {
     private LocalDateTime       timestamp;
     private Map<String, String> errors;
 
+    //  Para erros simples (404, 409, 500)
     public ErrorResponse(String message, int status) {
         this.message = message;
         this.status = status;
         this.timestamp = LocalDateTime.now();
+        this.errors = null;
     }
 
+    //  Para erros de validação (400 com mapa)
     public ErrorResponse(String message, int status, Map<String, String> errors) {
-        this(message, status);
+        this.message = message;
+        this.status = status;
+        this.timestamp = LocalDateTime.now();
         this.errors = errors;
     }
+
 
     public String getMessage() {
         return message;

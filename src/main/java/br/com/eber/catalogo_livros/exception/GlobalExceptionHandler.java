@@ -1,18 +1,19 @@
 package br.com.eber.catalogo_livros.exception;
 
+import br.com.eber.catalogo_livros.service.IsbnDuplicadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 1️⃣ Bean Validation
+    // Bean Validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(
             MethodArgumentNotValidException ex) {
@@ -32,7 +33,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
-    // 2️⃣ Livro não encontrado
+    // ISBN duplicado
+    @ExceptionHandler(IsbnDuplicadoException.class)
+    public ResponseEntity<ErrorResponse> handleIsbnDuplicado(IsbnDuplicadoException ex) {
+
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                HttpStatus.CONFLICT.value()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    // Livro não encontrado
     @ExceptionHandler(LivroNaoEncontradoException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(
             LivroNaoEncontradoException ex) {
@@ -46,14 +59,14 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-    // 3️⃣ Erro genérico
+
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(
-            Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
 
         ErrorResponse response = new ErrorResponse(
-                "Erro interno do servidor",
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                ex.getClass().getName(),
+                500
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
