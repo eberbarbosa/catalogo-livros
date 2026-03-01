@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,10 +49,22 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         @RequestParam(required = false) String titulo,
         @RequestParam(required = false) String autor,
         @RequestParam(required = false) Integer ano,
+        @RequestParam(required = false) Integer anoInicio,
+        @RequestParam(required = false) Integer anoFim,
+        @RequestParam(required = false) BigDecimal precoMin,
+        @RequestParam(required = false) BigDecimal precoMax,
         Pageable pageable) {
 
     Page<LivroResponseDTO> page = livroService
-            .buscarComFiltrosPaginado(titulo, autor, ano, pageable)
+            .buscarComFiltrosPaginado(
+                    titulo,
+                    autor,
+                    ano,
+                    anoInicio,
+                    anoFim,
+                    precoMin,
+                    precoMax,
+                    pageable)
             .map(livro -> new LivroResponseDTO(
                     livro.getId(),
                     livro.getTitulo(),
