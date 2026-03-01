@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +59,14 @@ public class LivroService {
         return livroRepository.findByAutorContainingIgnoreCase(nomeAutor);
     }
 
-    public List<Livro> buscarComFiltros(String titulo, String autor, Integer ano) {
+    public List<Livro> buscarComFiltros(
+            String titulo,
+            String autor,
+            Integer ano,
+            Integer anoInicio,
+            Integer anoFim,
+            BigDecimal precoMin,
+            BigDecimal precoMax) {
 
         Specification<Livro> spec = Specification.allOf();
 
@@ -73,7 +82,22 @@ public class LivroService {
             spec = spec.and(LivroSpecification.anoIgual(ano));
         }
 
+        if (anoInicio != null && anoFim != null) {
+            if (anoInicio > anoFim) {
+                throw new IllegalArgumentException("anoInicio não pode ser maior que anoFim");
+            }
+            spec = spec.and(LivroSpecification.anoEntre(anoInicio, anoFim));
+        }
+
+        if (precoMin != null && precoMax != null) {
+            if (precoMin.compareTo(precoMax) > 0) {
+                throw new IllegalArgumentException("precoMin não pode ser maior que precoMax");
+            }
+            spec = spec.and(LivroSpecification.precoEntre(precoMin, precoMax));
+        }
+
         return livroRepository.findAll(spec);
+
     }
 
 
@@ -81,6 +105,10 @@ public class LivroService {
             String titulo,
             String autor,
             Integer ano,
+            Integer anoInicio,
+            Integer anoFim,
+            BigDecimal precoMin,
+            BigDecimal precoMax,
             Pageable pageable) {
 
         Specification<Livro> spec = Specification.allOf();
@@ -95,6 +123,20 @@ public class LivroService {
 
         if (ano != null) {
             spec = spec.and(LivroSpecification.anoIgual(ano));
+        }
+
+        if (anoInicio != null && anoFim != null) {
+            if (anoInicio > anoFim) {
+                throw new IllegalArgumentException("anoInicio não pode ser maior que anoFim");
+            }
+            spec = spec.and(LivroSpecification.anoEntre(anoInicio, anoFim));
+        }
+
+        if (precoMin != null && precoMax != null) {
+            if (precoMin.compareTo(precoMax) > 0) {
+                throw new IllegalArgumentException("precoMin não pode ser maior que precoMax");
+            }
+            spec = spec.and(LivroSpecification.precoEntre(precoMin, precoMax));
         }
 
         return livroRepository.findAll(spec, pageable);
