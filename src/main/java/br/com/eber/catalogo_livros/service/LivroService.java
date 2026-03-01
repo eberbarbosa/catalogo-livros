@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -75,5 +76,28 @@ public class LivroService {
         return livroRepository.findAll(spec);
     }
 
+
+    public Page<Livro> buscarComFiltrosPaginado(
+            String titulo,
+            String autor,
+            Integer ano,
+            Pageable pageable) {
+
+        Specification<Livro> spec = Specification.allOf();
+
+        if (titulo != null && !titulo.isBlank()) {
+            spec = spec.and(LivroSpecification.tituloContains(titulo));
+        }
+
+        if (autor != null && !autor.isBlank()) {
+            spec = spec.and(LivroSpecification.autorContains(autor));
+        }
+
+        if (ano != null) {
+            spec = spec.and(LivroSpecification.anoIgual(ano));
+        }
+
+        return livroRepository.findAll(spec, pageable);
+    }
 
 }
