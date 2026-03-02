@@ -113,11 +113,21 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
 //    }
 
     @PostMapping
-    public ResponseEntity<LivroResponseDTO> salvar(@RequestBody Livro livro) {
+    public ResponseEntity<LivroResponseDTO> salvar(
+            @RequestBody @Valid LivroRequestDTO dto) {
+
+        Livro livro = new Livro(
+                null,
+                dto.getTitulo(),
+                dto.getAutor(),
+                dto.getPreco(),
+                dto.getIsbn(),
+                dto.getAnoPublicacao()
+        );
 
         Livro livroSalvo = livroService.salvar(livro);
 
-        LivroResponseDTO dto = new LivroResponseDTO(
+        LivroResponseDTO response = new LivroResponseDTO(
                 livroSalvo.getId(),
                 livroSalvo.getTitulo(),
                 livroSalvo.getAutor(),
@@ -126,7 +136,7 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
                 livroSalvo.getAnoPublicacao()
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 

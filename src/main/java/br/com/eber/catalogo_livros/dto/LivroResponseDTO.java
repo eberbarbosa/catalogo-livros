@@ -1,5 +1,7 @@
 package br.com.eber.catalogo_livros.dto;
 
+import java.math.BigDecimal;
+
 public class LivroResponseDTO {
 
     private Long   id;
@@ -9,7 +11,7 @@ public class LivroResponseDTO {
     private String isbn;
     private int    anoPublicacao;
 
-    public LivroResponseDTO() {}
+    public LivroResponseDTO(Long id, String titulo, String autor, BigDecimal preco, String isbn, Integer anoPublicacao) {}
 
 
     public LivroResponseDTO(Long id, String titulo, String autor, Double preco, String isbn, int anoPublicacao) {
