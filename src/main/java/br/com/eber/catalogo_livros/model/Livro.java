@@ -2,23 +2,25 @@ package br.com.eber.catalogo_livros.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name="livro")
 public class Livro {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long   id;
-    private String titulo;
-    private String autor;
-    private Double preco;
-    private String isbn;
-    private int    anoPublicacao;
+    private Long       id;
+    private String     titulo;
+    private String     autor;
+    private BigDecimal preco;
+    private String     isbn;
+    private Integer    anoPublicacao;
 
     public Livro() {}
 
 
-    public Livro(Long id, String titulo, String autor, Double preco, String isbn, int anoPublicacao) {
+    public Livro(Long id, String titulo, String autor, BigDecimal preco, String isbn, Integer anoPublicacao) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -51,11 +53,11 @@ public class Livro {
         this.autor = autor;
     }
 
-    public Double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
@@ -67,11 +69,11 @@ public class Livro {
         this.isbn = isbn;
     }
 
-    public int getAnoPublicacao() {
+    public Integer getAnoPublicacao() {
         return anoPublicacao;
     }
 
-    public void setAnoPublicacao(int anoPublicacao) {
+    public void setAnoPublicacao(Integer anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
     }
 }
