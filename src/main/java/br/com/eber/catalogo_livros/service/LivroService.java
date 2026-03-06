@@ -148,4 +148,19 @@ public class LivroService {
         return livroRepository.findAll(spec, pageable);
     }
 
+    public Livro atualizar(Long id, Livro livroAtualizado) {
+
+        Livro livroExistente = livroRepository.findById(id)
+                .orElseThrow(() ->
+                        new LivroNaoEncontradoException("Livro não encontrado com id: " + id));
+
+        livroExistente.setTitulo(livroAtualizado.getTitulo());
+        livroExistente.setAutor(livroAtualizado.getAutor());
+        livroExistente.setPreco(livroAtualizado.getPreco());
+        livroExistente.setIsbn(livroAtualizado.getIsbn());
+        livroExistente.setAnoPublicacao(livroAtualizado.getAnoPublicacao());
+
+        return livroRepository.save(livroExistente);
+    }
+
 }

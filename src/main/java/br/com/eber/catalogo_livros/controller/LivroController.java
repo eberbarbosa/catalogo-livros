@@ -139,6 +139,34 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<LivroResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid LivroRequestDTO dto) {
+
+        Livro livro = new Livro(
+                id,
+                dto.getTitulo(),
+                dto.getAutor(),
+                dto.getPreco(),
+                dto.getIsbn(),
+                dto.getAnoPublicacao()
+        );
+
+        Livro livroAtualizado = livroService.atualizar(id, livro);
+
+        LivroResponseDTO response = new LivroResponseDTO(
+                livroAtualizado.getId(),
+                livroAtualizado.getTitulo(),
+                livroAtualizado.getAutor(),
+                livroAtualizado.getPreco(),
+                livroAtualizado.getIsbn(),
+                livroAtualizado.getAnoPublicacao()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }
 
