@@ -1,4 +1,4 @@
-package br.com.eber.catalogo_livros.service;
+package br.com.eber.catalogo_livros.exception;
 
 public class IsbnDuplicadoException extends RuntimeException {
 

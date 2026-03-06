@@ -1,5 +1,6 @@
 package br.com.eber.catalogo_livros.service;
 
+import br.com.eber.catalogo_livros.exception.IsbnDuplicadoException;
 import br.com.eber.catalogo_livros.exception.LivroNaoEncontradoException;
 import br.com.eber.catalogo_livros.model.Livro;
 import br.com.eber.catalogo_livros.repository.LivroRepository;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -42,13 +42,19 @@ public class LivroService {
     }
 
     public Livro buscarPorId(Long id) {
+
         return livroRepository.findById(id)
                 .orElseThrow(() ->
-                        new LivroNaoEncontradoException("Livro não encontrado"));
+                        new LivroNaoEncontradoException("Livro não encontrado com id: " + id));
     }
 
     public void deletar(Long id) {
-        livroRepository.findById(id);
+
+        Livro livro = livroRepository.findById(id)
+                .orElseThrow(() ->
+                        new LivroNaoEncontradoException("Livro não encontrado com id: " + id));
+
+        livroRepository.delete(livro);
     }
 
     public Page<Livro> listar(Pageable pageable) {
