@@ -11,12 +11,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "Livros", description = "API para gerenciamento de livros")
 @RestController
 @RequestMapping("/livros")
 public class LivroController {
@@ -28,22 +31,8 @@ public class LivroController {
         this.livroService = livroService;
     }
 
-//    @GetMapping
-//    public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar (Pageable pageable) {
-//
-//        Page<LivroResponseDTO> page = livroService.listar(pageable)
-//                .map(livro -> new LivroResponseDTO(
-//                        livro.getId(),
-//                        livro.getTitulo(),
-//                        livro.getAutor(),
-//                        livro.getPreco(),
-//                        livro.getIsbn(),
-//                        livro.getAnoPublicacao()
-//                ));
-//        return ResponseEntity.ok(new PageResponseDTO<>(page));
-//
-//    }
 
+@Operation(summary = "Listar todos os livros")
 @GetMapping
 public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         @RequestParam(required = false) String titulo,
@@ -77,6 +66,8 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
     return ResponseEntity.ok(new PageResponseDTO<>(page));
 }
 
+
+    @Operation(summary = "Buscar livro por ID")
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> buscarPorId(@PathVariable Long id) {
 
@@ -94,24 +85,8 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         return ResponseEntity.ok(dto);
     }
 
-//    @GetMapping("/autor")
-//    public ResponseEntity<List<LivroResponseDTO>> buscarPorAutor(@RequestParam String nome) {
-//
-//        List<LivroResponseDTO> lista = livroService.buscarPorAutor(nome)
-//                .stream()
-//                .map(livro -> new LivroResponseDTO(
-//                        livro.getId(),
-//                        livro.getTitulo(),
-//                        livro.getAutor(),
-//                        livro.getPreco(),
-//                        livro.getIsbn(),
-//                        livro.getAnoPublicacao()
-//                ))
-//                .toList();
-//
-//        return ResponseEntity.ok(lista);
-//    }
 
+    @Operation(summary = "Cadastrar um novo livro")
     @PostMapping
     public ResponseEntity<LivroResponseDTO> salvar(
             @RequestBody @Valid LivroRequestDTO dto) {
@@ -139,6 +114,7 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Atualizar um livro")
     @PutMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> atualizar(
             @PathVariable Long id,
