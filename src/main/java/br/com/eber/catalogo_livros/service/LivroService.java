@@ -154,6 +154,13 @@ public class LivroService {
                 .orElseThrow(() ->
                         new LivroNaoEncontradoException("Livro não encontrado com id: " + id));
 
+        // valida duplicidade de ISBN se ele mudou
+        if (!livroExistente.getIsbn().equals(livroAtualizado.getIsbn())
+                && livroRepository.existsByIsbn(livroAtualizado.getIsbn())) {
+
+            throw new IsbnDuplicadoException("ISBN já cadastrado");
+        }
+
         livroExistente.setTitulo(livroAtualizado.getTitulo());
         livroExistente.setAutor(livroAtualizado.getAutor());
         livroExistente.setPreco(livroAtualizado.getPreco());
