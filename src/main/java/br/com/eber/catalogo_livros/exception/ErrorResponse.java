@@ -1,8 +1,11 @@
 package br.com.eber.catalogo_livros.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
     private String              message;
@@ -11,6 +14,7 @@ public class ErrorResponse {
     private Map<String, String> errors;
 
     //  Para erros simples (404, 409, 500)
+
     public ErrorResponse(String message, int status) {
         this.message = message;
         this.status = status;
