@@ -8,12 +8,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,5 +93,23 @@ public class LivroServiceTest {
         livroService.deletar(1L);
 
         verify(livroRepository).delete(livro);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoPrecoMinMaiorQuePrecoMax() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> livroService.buscarComFiltrosPaginado(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        new BigDecimal("100"),
+                        new BigDecimal("10"),
+                        PageRequest.of(0,10)
+                )
+        );
     }
 }

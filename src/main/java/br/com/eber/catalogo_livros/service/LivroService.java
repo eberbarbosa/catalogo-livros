@@ -117,6 +117,8 @@ public class LivroService {
             BigDecimal precoMax,
             Pageable pageable) {
 
+        validarIntervalos(anoInicio, anoFim, precoMin, precoMax);
+
         Specification<Livro> spec = Specification.allOf();
 
         if (titulo != null && !titulo.isBlank()) {
@@ -147,6 +149,22 @@ public class LivroService {
 
         return livroRepository.findAll(spec, pageable);
     }
+
+    private void validarIntervalos(
+            Integer anoInicio,
+            Integer anoFim,
+            BigDecimal precoMin,
+            BigDecimal precoMax) {
+
+        if (anoInicio != null && anoFim != null && anoInicio > anoFim) {
+            throw new IllegalArgumentException("Ano inicial não pode ser maior que o ano final");
+        }
+
+        if (precoMin != null && precoMax != null && precoMin.compareTo(precoMax) > 0) {
+            throw new IllegalArgumentException("Preço mínimo não pode ser maior que o preço máximo");
+        }
+    }
+
 
     public Livro atualizar(Long id, Livro livroAtualizado) {
 
