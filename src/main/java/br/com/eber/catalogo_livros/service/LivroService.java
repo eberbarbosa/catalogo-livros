@@ -2,6 +2,7 @@ package br.com.eber.catalogo_livros.service;
 
 import br.com.eber.catalogo_livros.exception.IsbnDuplicadoException;
 import br.com.eber.catalogo_livros.exception.LivroNaoEncontradoException;
+import br.com.eber.catalogo_livros.exception.RecursoNaoEncontradoException;
 import br.com.eber.catalogo_livros.model.Livro;
 import br.com.eber.catalogo_livros.repository.LivroRepository;
 import br.com.eber.catalogo_livros.repository.specification.LivroSpecification;
@@ -187,5 +188,7 @@ public class LivroService {
 
         return livroRepository.save(livroExistente);
     }
+
+   
 
 }

@@ -143,6 +143,15 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Remover um livro")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+
+        livroService.deletar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
 
