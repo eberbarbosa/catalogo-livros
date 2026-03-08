@@ -1,13 +1,11 @@
 package br.com.eber.catalogo_livros.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
 
 public class LivroRequestDTO {
 
-    private Long   id;
 
     @NotBlank(message = "Título é obrigatório")
     private String titulo;
@@ -16,25 +14,19 @@ public class LivroRequestDTO {
     private String autor;
 
     @NotNull(message = "Preço é obrigatório")
-    @Positive(message = "Preço deve ser maior que zero")
-    private Double preco;
+    @DecimalMin(value = "0.01", message = "Preço deve ser maior que zero")
+    private BigDecimal preco;
 
     @NotBlank(message = "ISBN é obrigatório")
     private String isbn;
 
+    @NotNull(message = "Ano é obrigatório")
     @Min(value = 1000, message = "Ano inválido")
-    private int    anoPublicacao;
+    private Integer    anoPublicacao;
 
 
     public LivroRequestDTO(){}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitulo() {
         return titulo;
@@ -52,11 +44,11 @@ public class LivroRequestDTO {
         this.autor = autor;
     }
 
-    public Double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
@@ -68,11 +60,11 @@ public class LivroRequestDTO {
         this.isbn = isbn;
     }
 
-    public int getAnoPublicacao() {
+    public Integer getAnoPublicacao() {
         return anoPublicacao;
     }
 
-    public void setAnoPublicacao(int anoPublicacao) {
+    public void setAnoPublicacao(Integer anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
     }
 }

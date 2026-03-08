@@ -11,12 +11,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "Livros", description = "API para gerenciamento de livros")
 @RestController
 @RequestMapping("/livros")
 public class LivroController {
@@ -28,22 +31,8 @@ public class LivroController {
         this.livroService = livroService;
     }
 
-//    @GetMapping
-//    public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar (Pageable pageable) {
-//
-//        Page<LivroResponseDTO> page = livroService.listar(pageable)
-//                .map(livro -> new LivroResponseDTO(
-//                        livro.getId(),
-//                        livro.getTitulo(),
-//                        livro.getAutor(),
-//                        livro.getPreco(),
-//                        livro.getIsbn(),
-//                        livro.getAnoPublicacao()
-//                ));
-//        return ResponseEntity.ok(new PageResponseDTO<>(page));
-//
-//    }
 
+@Operation(summary = "Listar todos os livros")
 @GetMapping
 public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         @RequestParam(required = false) String titulo,
@@ -77,6 +66,8 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
     return ResponseEntity.ok(new PageResponseDTO<>(page));
 }
 
+
+    @Operation(summary = "Buscar livro por ID")
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> buscarPorId(@PathVariable Long id) {
 
@@ -94,30 +85,24 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
         return ResponseEntity.ok(dto);
     }
 
-//    @GetMapping("/autor")
-//    public ResponseEntity<List<LivroResponseDTO>> buscarPorAutor(@RequestParam String nome) {
-//
-//        List<LivroResponseDTO> lista = livroService.buscarPorAutor(nome)
-//                .stream()
-//                .map(livro -> new LivroResponseDTO(
-//                        livro.getId(),
-//                        livro.getTitulo(),
-//                        livro.getAutor(),
-//                        livro.getPreco(),
-//                        livro.getIsbn(),
-//                        livro.getAnoPublicacao()
-//                ))
-//                .toList();
-//
-//        return ResponseEntity.ok(lista);
-//    }
 
+    @Operation(summary = "Cadastrar um novo livro")
     @PostMapping
-    public ResponseEntity<LivroResponseDTO> salvar(@RequestBody Livro livro) {
+    public ResponseEntity<LivroResponseDTO> salvar(
+            @RequestBody @Valid LivroRequestDTO dto) {
+
+        Livro livro = new Livro(
+                null,
+                dto.getTitulo(),
+                dto.getAutor(),
+                dto.getPreco(),
+                dto.getIsbn(),
+                dto.getAnoPublicacao()
+        );
 
         Livro livroSalvo = livroService.salvar(livro);
 
-        LivroResponseDTO dto = new LivroResponseDTO(
+        LivroResponseDTO response = new LivroResponseDTO(
                 livroSalvo.getId(),
                 livroSalvo.getTitulo(),
                 livroSalvo.getAutor(),
@@ -126,7 +111,45 @@ public ResponseEntity<PageResponseDTO<LivroResponseDTO>> listar(
                 livroSalvo.getAnoPublicacao()
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Operation(summary = "Atualizar um livro")
+    @PutMapping("/{id}")
+    public ResponseEntity<LivroResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid LivroRequestDTO dto) {
+
+        Livro livro = new Livro(
+                id,
+                dto.getTitulo(),
+                dto.getAutor(),
+                dto.getPreco(),
+                dto.getIsbn(),
+                dto.getAnoPublicacao()
+        );
+
+        Livro livroAtualizado = livroService.atualizar(id, livro);
+
+        LivroResponseDTO response = new LivroResponseDTO(
+                livroAtualizado.getId(),
+                livroAtualizado.getTitulo(),
+                livroAtualizado.getAutor(),
+                livroAtualizado.getPreco(),
+                livroAtualizado.getIsbn(),
+                livroAtualizado.getAnoPublicacao()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Remover um livro")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+
+        livroService.deletar(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 
