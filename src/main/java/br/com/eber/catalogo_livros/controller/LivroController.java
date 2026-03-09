@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 
 
 
-
+@CrossOrigin(origins = "*")
 @Tag(name = "Livros", description = "API para gerenciamento de livros")
 @RestController
 @RequestMapping("/livros")
