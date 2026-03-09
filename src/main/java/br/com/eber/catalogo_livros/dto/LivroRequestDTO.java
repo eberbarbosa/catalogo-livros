@@ -1,28 +1,50 @@
 package br.com.eber.catalogo_livros.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
+@Schema(description = "Dados para cadastro ou atualização de um livro")
 public class LivroRequestDTO {
 
+//    @NotBlank(message = "Título é obrigatório")
+//    private String titulo;
+//
+//    @NotBlank(message = "Autor é obrigatório")
+//    private String autor;
+//
+//    @NotNull(message = "Preço é obrigatório")
+//    @DecimalMin(value = "0.01", message = "Preço deve ser maior que zero")
+//    private BigDecimal preco;
+//
+//    @NotBlank(message = "ISBN é obrigatório")
+//    private String isbn;
+//
+//    @NotNull(message = "Ano é obrigatório")
+//    @Min(value = 1000, message = "Ano inválido")
+//    private Integer    anoPublicacao;
 
-    @NotBlank(message = "Título é obrigatório")
-    private String titulo;
 
-    @NotBlank(message = "Autor é obrigatório")
-    private String autor;
+        @Schema(example = "Clean Code")
+        @NotBlank(message = "Título é obrigatório")
+        private String titulo;
 
-    @NotNull(message = "Preço é obrigatório")
-    @DecimalMin(value = "0.01", message = "Preço deve ser maior que zero")
-    private BigDecimal preco;
+        @Schema(example = "Robert C. Martin")
+        @NotBlank(message = "Autor é obrigatório")
+        private String autor;
 
-    @NotBlank(message = "ISBN é obrigatório")
-    private String isbn;
+        @Schema(example = "120.50")
+        @NotNull(message = "Preço é obrigatório")
+        private BigDecimal preco;
 
-    @NotNull(message = "Ano é obrigatório")
-    @Min(value = 1000, message = "Ano inválido")
-    private Integer    anoPublicacao;
+        @Schema(example = "9780132350884")
+        @NotBlank(message = "ISBN é obrigatório")
+        private String isbn;
+
+        @Schema(example = "2008")
+        @NotNull(message = "Ano é obrigatório")
+        private Integer anoPublicacao;
 
 
     public LivroRequestDTO(){}
