@@ -14,12 +14,12 @@ public class PageResponseDTO<T> {
     private boolean last;
 
     public PageResponseDTO(Page<T> pageData) {
-        this.data = pageData.getContent();
-        this.page = pageData.getNumber();
-        this.size = pageData.getSize();
+        this.data =          pageData.getContent();
+        this.page =          pageData.getNumber();
+        this.size =          pageData.getSize();
         this.totalElements = pageData.getTotalElements();
-        this.totalPages = pageData.getTotalPages();
-        this.last = pageData.isLast();
+        this.totalPages =    pageData.getTotalPages();
+        this.last =          pageData.isLast();
     }
 
     public List<T> getData() {
