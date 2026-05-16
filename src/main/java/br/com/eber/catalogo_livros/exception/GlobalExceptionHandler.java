@@ -1,6 +1,5 @@
 package br.com.eber.catalogo_livros.exception;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
-                HttpStatus.CONFLICT.value()
-        );
+                HttpStatus.CONFLICT.value(),
+                LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
@@ -53,8 +53,8 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
-                HttpStatus.NOT_FOUND.value()
-        );
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(response);
@@ -65,13 +65,22 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
 
-        ErrorResponse response = new ErrorResponse(
+//        ErrorResponse response = new ErrorResponse(
+//                "Erro interno no servidor",
+//                HttpStatus.INTERNAL_SERVER_ERROR.value()
+//        );
+//
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .body(response);
+        ex.printStackTrace(); // 👈 agora vai mostrar o erro real
+
+        ErrorResponse error = new ErrorResponse(
                 "Erro interno no servidor",
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                500,
+                LocalDateTime.now()
         );
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(response);
+        return ResponseEntity.status(500).body(error);
     }
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
@@ -80,8 +89,8 @@ public class GlobalExceptionHandler {
 
         ErrorResponse error = new ErrorResponse(
                 ex.getMessage(),
-                HttpStatus.NOT_FOUND.value()
-        );
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }

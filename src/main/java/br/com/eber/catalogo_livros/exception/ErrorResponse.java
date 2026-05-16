@@ -14,8 +14,7 @@ public class ErrorResponse {
     private Map<String, String> errors;
 
     //  Para erros simples (404, 409, 500)
-
-    public ErrorResponse(String message, int status) {
+    public ErrorResponse(String message, int status, LocalDateTime now) {
         this.message = message;
         this.status = status;
         this.timestamp = LocalDateTime.now();
